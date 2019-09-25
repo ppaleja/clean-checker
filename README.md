@@ -3,10 +3,10 @@ A simple tool that allows you to check if a song is clean.
 
  - Uses the Happi API. 
  - Loosely based on the weather app from Fullstack React Native by Devin Abbott. 
- 
-# Version a1.0 
-## Current Functionality: 
+# Changelog
+## Version a1.0 
+### Current Functionality: 
  - Search a song, and the app will check if it is clean, how many swear words it has, and what percentage of the song is swearwords 
-## Future Functionality: 
+### Future Functionality: 
  - Better rating algorithm (more helpful) 
  - Prettier UX
