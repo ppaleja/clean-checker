@@ -1,4 +1,4 @@
-# clean-checker
+# Clean?
 A simple tool that allows you to check if a song is clean.
 
  - Uses the Happi API. 
