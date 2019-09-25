@@ -2,6 +2,7 @@
 A simple tool that allows you to check if a song is clean.
 
  - Uses the Happi API. 
+ - Built using Expo Dev Tools
  - Loosely based on the weather app from Fullstack React Native by Devin Abbott. 
 # Changelog
 ## Version a1.0 
