@@ -81,7 +81,6 @@ export default class App extends React.Component {
           rating,
         }); 
       } catch (e) {
-        alert(e);
         this.setState({
           loading: false,
           error: true,
@@ -91,72 +90,109 @@ export default class App extends React.Component {
   };
 
   checkLyrics = (lyrics) => {
-    lyrics = lyrics.toLowerCase();
-    let lyricsArray = lyrics.split(' ');
-    let count = 0;
-    
-    for(let i = 0; i < lyricsArray.length; i++) {
-      // Check if the current word has the newline char
-      if(lyricsArray[i].search('\n') != -1) {
+    try {
+      lyrics = lyrics.toLowerCase();
+      let lyricsArray = lyrics.split(' ');
+      let count = 0;
+      
+      for(let i = 0; i < lyricsArray.length; i++) {
+        // Check if the current word has the newline char
+        if(lyricsArray[i].search('\n') != -1) {
 
-        let splitStr = lyricsArray[i].split('\n');
+          let splitStr = lyricsArray[i].split('\n');
 
-        // Algorithm to add in the newly split array into the original array
-        let j = 0;
-        for(j = 0; j < splitStr.length; j++) {
-          lyricsArray.splice(i + j, 0, splitStr[j]);
+          // Algorithm to add in the newly split array into the original array
+          let j = 0;
+          for(j = 0; j < splitStr.length; j++) {
+            lyricsArray.splice(i + j, 0, splitStr[j]);
+          }
+          lyricsArray.splice(i + j, 1);
         }
-        lyricsArray.splice(i + j, 1);
+
+
+        // Check for swearwords
+        for(let k = 0; k < swearWords.length; k++) {
+          if (lyricsArray[i].search(swearWords[k]) != -1) {
+            count++;
+          }
+        }
       }
 
-
-      // Check for swearwords
-      for(let k = 0; k < swearWords.length; k++) {
-        if (lyricsArray[i].search(swearWords[k]) != -1) {
-          count++;
-        }
+      // Return the results
+      rating = 100 - (count / lyricsArray.length * 100);
+      return {
+        cleanCheck: (count === 0 ? 'Yes' : 'No'),
+        numSwears: count,
+        rating: rating.toFixed(2),
       }
-    }
-
-    // Return the results
-    rating = 100 - (count / lyricsArray.length * 100);
-    return {
-      cleanCheck: (count === 0 ? 'Yes' : 'No'),
-      numSwears: count,
-      rating: rating.toFixed(2),
+    } catch (e) {
+      this.setState({
+        loading: false,
+        error: true,
+      });
     }
   };
   
   render() {
-    const { song, artist, coverLink, cleanCheck, numSwears, rating } = this.state;
+    const { 
+      loading, 
+      error, 
+      song, 
+      artist, 
+      coverLink, 
+      cleanCheck, 
+      numSwears, 
+      rating } = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
+        <StatusBar barStyle='light-content'/>
         <ImageBackground
           source={{uri: `${coverLink}`}}
           style={styles.imageContainer}
           imageStyle={styles.image}
         >
           <View style={styles.detailsContainer}>
-          <Text style={[styles.largeText, styles.titleTextStyle]}>{song}</Text>
-          <Text style={[styles.smallText, styles.titleTextStyle]}>{artist}</Text>
-            <SearchInput 
-              placeholder="Search any song"
-              onSubmit={this.handleUpdateSong}
-            />
-              <View style={styles.infoContainer}>
-                <View style={styles.categoriesContainer}>
-                  <Text style={[styles.largeText, styles.infoTextStyle]}>Clean?</Text>
-                  <Text style={[styles.largeText, styles.infoTextStyle]}>Swears: </Text>
-                  <Text style={[styles.largeText, styles.infoTextStyle]}>Rating: </Text>
-                </View>
-                <View style={styles.responseContainer}>
-                  <View justifyContent='center'>
-                    <Text style={[styles.largeText, styles.infoTextStyle]}>{cleanCheck}</Text>
-                    <Text style={[styles.largeText, styles.infoTextStyle]}>{numSwears}</Text>
-                    <Text style={[styles.largeText, styles.infoTextStyle]}>{rating}%</Text>
+            <ActivityIndicator animating={loading} color='white' size='large'/>
+            {!loading && (
+              <View>
+                {error && (
+                  <View>
+                    <Text style={[styles.smallText, styles.textStyle]}>
+                      Could not load lyrics, please try a different city.
+                    </Text>
+                    <SearchInput 
+                      placeholder='Search any song'
+                      onSubmit={this.handleUpdateSong}
+                    />
                   </View>
-                </View>
+                )}
+
+                {!error && (
+                  <View>
+                    <Text style={[styles.largeText, styles.titleTextStyle]}>{song}</Text>
+                    <Text style={[styles.smallText, styles.titleTextStyle]}>{artist}</Text>
+                    <SearchInput 
+                      placeholder='Search any song'
+                      onSubmit={this.handleUpdateSong}
+                    />
+                    <View style={styles.infoContainer}>
+                      <View style={styles.categoriesContainer}>
+                        <Text style={[styles.largeText, styles.infoTextStyle]}>Clean?</Text>
+                        <Text style={[styles.largeText, styles.infoTextStyle]}>Swears: </Text>
+                        <Text style={[styles.largeText, styles.infoTextStyle]}>Rating: </Text>
+                      </View>
+                      <View style={styles.responseContainer}>
+                        <View justifyContent='center'>
+                          <Text style={[styles.largeText, styles.infoTextStyle]}>{cleanCheck}</Text>
+                          <Text style={[styles.largeText, styles.infoTextStyle]}>{numSwears}</Text>
+                          <Text style={[styles.largeText, styles.infoTextStyle]}>{rating}%</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                )}
               </View>
+            )}     
           </View>
         </ImageBackground>
       </KeyboardAvoidingView>

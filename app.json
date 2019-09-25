@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Clean?",
+    "slug": "cleanChecker",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "description": "A simple tool that allows you to check if a song is clean. Uses the Happi API. Loosely based on the weather app from Fullstack React Native by Devin Abbott.\n\nVersion a1.0\n\nCurrent Functionality:\n  - Search a song, and the app will check if it is clean, how many swear words it has, and what percentage of the \n     song is swearwords\nFuture Functionality:\n  - Better rating algorithm (more helpful)\n  - Prettier UX"
+  }
+}
