@@ -10,4 +10,4 @@ A simple tool that allows you to check if a song is clean.
  - Search a song, and the app will check if it is clean, how many swear words it has, and what percentage of the song is swearwords 
 ### Future Functionality: 
  - Better rating algorithm (more helpful) 
- - Prettier UX
+ - Prettier UI
